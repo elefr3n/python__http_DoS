@@ -37,6 +37,7 @@ def parseCookies(rawCookies):
 	cookie = SimpleCookie()
 	cookie.load(rawCookies)
 	cookies_r = {}
+
 	for key, morsel in cookie.items():
 		cookies_r[key] = morsel.value
 
@@ -44,9 +45,11 @@ def parseCookies(rawCookies):
 
 def sendRequest():
 	target = random.choice(urls)
-	
+	cookies_parsed = parseCookies(cookies)
+	headers = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0'}
+
 	start = time.time()
-	response = requests.get(target, cookies=parseCookies(cookies))
+	response = requests.get(target, cookies=cookies_parsed, headers=headers)
 	end = time.time()
 	
 	responseStr = target + "\n"
