@@ -6,6 +6,7 @@ try:
     import random
     import time
     import requests
+    import string
     from http.cookies import SimpleCookie
     
 except ImportError as ie:
@@ -16,6 +17,10 @@ parser.add_argument('-u','--urls', help = 'File with url targets [Example: %(pro
 parser.add_argument('-c','--cookies', help='File with cookies. [Example: %(prog)s -c cookies.txt]', default=None)
 parser.add_argument('-t','--threads', help = 'Number of threads. [Example: %(prog)s -t 5]', type = int, default = 5)
 args = parser.parse_args()
+
+num_requests = 0
+time_started = int(time.time())
+time.sleep(1)
 
 def readFile(f):
     f = open(f)
@@ -43,17 +48,33 @@ def parseCookies(rawCookies):
 
 	return cookies_r
 
+def currentRequestsPerSecond():
+	global num_requests
+	global time_started
+	transcurred = int(time.time()) - int(time_started)
+	speed = num_requests / transcurred
+	print(str(speed) + " r/s")
+
+def randomString(stringLength=10):
+	letters = string.ascii_lowercase
+	return ''.join(random.choice(letters) for i in range(stringLength))
+
 def sendRequest():
-	target = random.choice(urls)
+	global num_requests
+	target = random.choice(urls) + "?" + randomString(4) + "=" + randomString()
 	cookies_parsed = parseCookies(cookies)
 	headers = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0'}
 
 	start = time.time()
 	response = requests.get(target, cookies=cookies_parsed, headers=headers)
 	end = time.time()
-	
+
+	num_requests = num_requests + 1
+
 	responseStr = target + "\n"
 	responseStr += str(response.status_code) + " in " + str(response.elapsed.total_seconds())
+
+	currentRequestsPerSecond()
 
 	print(responseStr)
 
