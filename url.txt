@@ -1,5 +1,5 @@
-https://www.site.com
-https://www.site.com/1
-https://www.site.com/1/2
-https://www.site.com/2
-https://www.site.com/3
+https://www.site.com/search/news/?from=2012/01/01&to=2022/09/09
+https://www.site.com/search/downloads/?from=2012/01/01&to=2022/09/09
+https://www.site.com/search/profiles/?from=2012/01/01&to=2022/09/09
+https://www.site.com/search/comments/?from=2012/01/01&to=2022/09/09
+https://www.site.com/search/photos/?from=2012/01/01&to=2022/09/09
